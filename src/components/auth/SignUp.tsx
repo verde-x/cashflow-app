@@ -121,6 +121,7 @@ export function SignUp({ open, onOpenChange, onSwitchToSignIn }: SignUpProps) {
                   onChange={(e) => setName(e.target.value)}
                   required
                   autoComplete="name"
+                  autoFocus
                 />
               </div>
 

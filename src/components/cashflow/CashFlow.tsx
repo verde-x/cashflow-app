@@ -384,11 +384,11 @@ export const CashFlowInput = () => {
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row item-start md:items-center justify-between gap-2 md:gap-0 mb-3">
         <div className="ps-2">
-          {!user && (
+          {/* {!user && (
             <p className="text-sm text-amber-600">
               【注意】ログインしていないため、データは保存されません
             </p>
-          )}
+          )} */}
         </div>
         <Button
           onClick={handleClear}

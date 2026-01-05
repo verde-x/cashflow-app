@@ -84,6 +84,7 @@ export function SignIn({ open, onOpenChange, onSwitchToSignUp }: SignInProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
+                autoFocus
               />
             </div>
 
