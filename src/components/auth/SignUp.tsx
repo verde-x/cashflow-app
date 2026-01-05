@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
+import { validatePassword } from "@/utils/authErrors";
 
 interface SignUpProps {
   open: boolean;
@@ -22,22 +23,30 @@ export function SignUp({ open, onOpenChange, onSwitchToSignIn }: SignUpProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const handleOpenChange = (newOpen: boolean) => {
+    onOpenChange(newOpen);
+
+    if (!newOpen) {
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setError(null);
+      setSuccess(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     // Validation
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long");
+    const validationError = validatePassword(password, confirmPassword);
+    if (validationError) {
+      setError(validationError);
       return;
     }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setLoading(true);
 
     const { error } = await signUp(email, password, name);
 
@@ -46,14 +55,12 @@ export function SignUp({ open, onOpenChange, onSwitchToSignIn }: SignUpProps) {
     if (error) {
       setError(error.message);
     } else {
-      // Success - show success message
       setSuccess(true);
       setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
 
-      // Auto close and switch to sign in after 2 seconds
       setTimeout(() => {
         setSuccess(false);
         onOpenChange(false);
@@ -74,7 +81,7 @@ export function SignUp({ open, onOpenChange, onSwitchToSignIn }: SignUpProps) {
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={handleOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
         <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg shadow-lg p-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">

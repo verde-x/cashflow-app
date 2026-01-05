@@ -128,6 +128,10 @@ export const useCashFlow = (userId?: string) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!userId) {
+        // ログアウト時にデータをクリア
+        setFinancialData(getDefaultFinancialData());
+        setMetadata({});
+        setClearKey((prev) => prev + 1); // NumericInputを強制的に再マウント
         setLoading(false);
         return;
       }
