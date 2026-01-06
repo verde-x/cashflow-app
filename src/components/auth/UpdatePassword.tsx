@@ -74,17 +74,15 @@ export function UpdatePassword({ open, onOpenChange }: UpdatePasswordProps) {
         <Dialog.Content
           className="fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg shadow-lg p-6 border border-gray-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
           onEscapeKeyDown={(e) => {
-            // Escキーでの閉じるを無効化（セキュリティのため）
             e.preventDefault();
           }}
           onPointerDownOutside={(e) => {
-            // 外側クリックでの閉じるを無効化（セキュリティのため）
             e.preventDefault();
           }}
         >
           <div className="flex items-center justify-between mb-4">
             <Dialog.Title className="text-xl font-semibold text-gray-900">
-              パスワード再設定（必須）
+              パスワード再設定
             </Dialog.Title>
           </div>
 
@@ -139,7 +137,7 @@ export function UpdatePassword({ open, onOpenChange }: UpdatePasswordProps) {
 
               <div className="space-y-2">
                 <Label htmlFor="confirm-password" className="text-xs">
-                  新しいパスワード（確認）
+                  パスワード（確認）
                 </Label>
                 <Input
                   id="confirm-password"

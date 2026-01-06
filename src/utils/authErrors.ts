@@ -1,14 +1,12 @@
 import type { AuthError } from "@supabase/supabase-js";
 
 const AUTH_ERROR_TRANSLATIONS: Record<string, string> = {
-  // パスワード関連
   "New password should be different from the old password.":
     "新しいパスワードは現在のパスワードと異なるものを設定してください。",
 
   "Password should be at least 6 characters":
     "パスワードは6文字以上で設定してください。",
 
-  // ログイン・認証関連
   "Invalid login credentials":
     "メールアドレスまたはパスワードが正しくありません。",
 
@@ -17,7 +15,6 @@ const AUTH_ERROR_TRANSLATIONS: Record<string, string> = {
 
   "Email not confirmed": "メールアドレスが確認されていません。",
 
-  // サインアップ関連
   "User already registered": "このメールアドレスは既に登録されています。",
 
   "Unable to validate email address: invalid format":
@@ -31,10 +28,13 @@ export function handleAuthError(error: AuthError | null): {
     return { error };
   }
 
-  const translatedMessage =
-    AUTH_ERROR_TRANSLATIONS[error.message] || error.message;
+  // レート制限エラー
+  if (error.message.includes("For security purposes")) {
+    error.message = "しばらく時間をおいてから再度お試しください。";
+    return { error };
+  }
 
-  error.message = translatedMessage;
+  error.message = AUTH_ERROR_TRANSLATIONS[error.message] || error.message;
 
   return { error };
 }
